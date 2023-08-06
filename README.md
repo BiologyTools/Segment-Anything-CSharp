@@ -1,37 +1,36 @@
-简体中文 | [English](README_EN.md)
+# SAM Application based on AIDajiangtang/Segment-Anything-CSharp
 
-# segment anything（SAM）
-[[`Paper`](https://ai.facebook.com/research/publications/segment-anything/)] [[`源码`](https://github.com/facebookresearch/segment-anything/)]  
+## Changes
+- Ability to Save masks created with point and box selections with user defined name.
+- Includes all needed model files decoder-quant.onnx and encoder-quant.onnx.
 
-
+# SAMTool
  ## SAM for CSharp ONNX Inference</h2>  
-基于C#语言，ONNX格式Segment Anything推理程序。  
-虽然官方提供了预训练模型，和推理代码，但预训练模型只有pytorch格式的，且推理代码只提供了基于Pytorch框架的Python代码。  
-本项目包含两部分：  
-1.将官方发布的预训练模型，拆分成编码器和解码器，并分别保存为ONNX格式。  
-2.使用C#语言加载模型，进行推理，并用WPF进行交互和显示。  
+[[`Paper`](https://ai.facebook.com/research/publications/segment-anything/)] [[`Source Code`](https://github.com/facebookresearch/segment-anything/)]  
 
- ## 源码编译</h2>  
- 1.下载源码到本地  
- 2.Visual Studio打开.sln项目解决方案  
- 3.安装Nuget包  
-  3.1在Visual Studio中，鼠标右键单击项目并选择“管理NuGet程序包”。  
-  3.2在“NuGet包管理器”窗口中，选择“浏览”选项卡。  
-  3.3搜索Microsoft.ML.OnnxRuntime，选择1.15.1版本，点击安装  
-  3.4搜索MathNet.Numerics，选择5.0.0版本，点击安装  
-  3.5MathNet.Numerics用于计算图像均值和方差，要求.Net Framework4.6.1以上版本，也可以自己实现，进而去掉这个依赖  
- 4.将decoder-quant.onnx和encoder-quant.onnx放到exe路径下  
- 5.运行程序
 
- 效果演示：   
+Based on C# language, ONNX format Segment Anything reasoning program.
+Although the official pre-training model and inference code are provided, the pre-training model is only in pytorch format, and the inference code only provides Python code based on the Pytorch framework.
+This project consists of two parts:
+1. Split the officially released pre-training model into encoder and decoder, and save them in ONNX format.
+2. Use C# language to load the model, perform inference, and use WPF for interaction and display.
+
+## Source code compilation</h2>
+  1. Download the source code to the local
+  2. Install the Nuget package
+  In Visual Studio, right-click on the project and select "Manage NuGet Packages".
+  In the NuGet Package Manager window, select the Browse tab.
+  Search for Microsoft.ML.OnnxRuntime, select version 1.15.1, and click Install
+  Search for MathNet.Numerics, select version 5.0.0, and click Install
+  MathNet.Numerics is used to calculate the mean and variance of images. It requires .Net Framework 4.6.1 or above, and it can also be implemented by itself, thereby removing this dependency.
+  3. Put decoder-quant.onnx and encoder-quant.onnx in the exe path
+  4. Run the program
+
+Effect demo:
+
 <img width="500" src="https://user-images.githubusercontent.com/18625471/256461679-0a357c01-3a7d-41cd-9a83-411fca9a8787.jpg">   
 <img width="500" src="https://user-images.githubusercontent.com/18625471/256462253-302bc6fb-f18e-4abc-ae69-5eacc3968a34.jpg">  
 
-由于Github不支持上传超过25M的文件，所以ONNX模型文件不能上传，如有需要请关注下面微信公众号，后台回复【SAM】  
+Since Github does not support uploading files exceeding 25M, ONNX model files cannot be uploaded. If necessary, please pay attention to the following WeChat public account, and the background will reply [SAM]
 
-关注微信公众号：**人工智能大讲堂**    
-<img width="180" src="https://user-images.githubusercontent.com/18625471/228743333-77abe467-2385-476d-86a2-e232c6482291.jpg">  
-
-To do  
-everything  
-text promot  
+Pay attention to the WeChat public account: 人工智能大讲堂
