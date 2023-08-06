@@ -2,6 +2,7 @@
 
 ## Changes
 - Ability to Save masks created with point and box selections with user defined name.
+- Masks are saved to "ApplicationPath"/Masks folder.
 - Includes all needed model files decoder-quant.onnx and encoder-quant.onnx.
 
 # SAMTool
