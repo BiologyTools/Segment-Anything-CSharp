@@ -48,7 +48,7 @@ namespace SAMViewer
 
             if (this.mImgEncoder != null)
                 this.mImgEncoder.Dispose();
-
+            /*
             string exePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string txtencoder = exePath + @"\textual.onnx";
             if (!File.Exists(txtencoder))
@@ -65,6 +65,7 @@ namespace SAMViewer
                 return;
             }
             this.mImgEncoder = new InferenceSession(imgencoder);
+            */
         }
 
 

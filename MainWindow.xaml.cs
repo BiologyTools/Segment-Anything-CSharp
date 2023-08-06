@@ -135,6 +135,67 @@ namespace SAMViewer
             }
 
         }
+        public static BitmapSource ConvertImageSourceToBitmapSource(ImageSource imageSource)
+        {
+            if (imageSource == null)
+                throw new ArgumentNullException(nameof(imageSource));
+
+            try
+            {
+                // Create a DrawingVisual and associate the ImageSource with it
+                DrawingVisual drawingVisual = new DrawingVisual();
+                using (DrawingContext drawingContext = drawingVisual.RenderOpen())
+                {
+                    drawingContext.DrawImage(imageSource, new Rect(0, 0, imageSource.Width, imageSource.Height));
+                }
+
+                // Create a RenderTargetBitmap and render the DrawingVisual
+                RenderTargetBitmap bitmap = new RenderTargetBitmap(
+                    (int)imageSource.Width,
+                    (int)imageSource.Height,
+                    96, // DPI X
+                    96, // DPI Y
+                    PixelFormats.Default);
+
+                bitmap.Render(drawingVisual);
+
+                return bitmap;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error converting ImageSource to BitmapSource: " + ex.Message);
+                return null;
+            }
+        }
+        public static void SaveImageSourceToFile(ImageSource imageSource, string filePath)
+        {
+            if (imageSource == null)
+                throw new ArgumentNullException(nameof(imageSource));
+
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
+
+            try
+            {
+                // Convert the ImageSource to a BitmapSource
+                BitmapSource bitmapSource = ConvertImageSourceToBitmapSource(imageSource);
+
+                // Save the BitmapSource to a file as a PNG
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    PngBitmapEncoder encoder = new PngBitmapEncoder(); // You can use other encoders like JpegBitmapEncoder if needed
+                    encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                    encoder.Save(fileStream);
+                }
+
+                Console.WriteLine("Image saved successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error saving image: " + ex.Message);
+            }
+        }
+
 
         // 鼠标移动事件处理程序
         private void image_MouseMove(object sender, MouseEventArgs e)
@@ -182,6 +243,7 @@ namespace SAMViewer
         /// <summary>
         /// 显示分割结果
         /// </summary>
+        int id = 1;
         void ShowMask(float[] mask)
         {
 
@@ -198,8 +260,8 @@ namespace SAMViewer
                         int ind = y * this.mOrgwid + x;
                         if (mask[ind] > 0)
                         {
-                            pixelData[4 * ind] = 0;  // Blue
-                            pixelData[4 * ind + 1] = 0;  // Green
+                            pixelData[4 * ind] = 255;  // Blue
+                            pixelData[4 * ind + 1] = 255;  // Green
                             pixelData[4 * ind + 2] = 255;  // Red
                             pixelData[4 * ind + 3] = 255;  // Alpha
                         }
@@ -209,6 +271,9 @@ namespace SAMViewer
                 bp.WritePixels(new Int32Rect(0, 0, this.mOrgwid, this.mOrghei), pixelData, this.mOrgwid * 4, 0);
                 // 创建一个BitmapImage对象，将WriteableBitmap作为源
                 this.mMask.Source = bp;
+                Directory.CreateDirectory("Masks");
+                SaveImageSourceToFile(this.mMask.Source, "Masks/" + MaskPathTxt.Text + id + ".png");
+                
             }));
         }
         /// <summary>
@@ -286,6 +351,11 @@ namespace SAMViewer
             this.Reset();
             this.LoadImgGrid.Visibility = Visibility.Visible;
             this.ImgCanvas.Visibility = Visibility.Hidden;
+        }
+
+        private void MaskPathTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            id = 1;
         }
     }
 
